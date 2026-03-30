@@ -507,17 +507,92 @@
 
   /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
-    .hero { grid-template-columns: 1fr; }
-    .hero-right { display: none; }
-    .hero-left { padding: 60px 24px; }
-    section { padding: 60px 24px; }
-    .products-grid { grid-template-columns: 1fr; }
-    .reserve-layout { grid-template-columns: 1fr; gap: 40px; }
-    #story { grid-template-columns: 1fr; }
-    .story-text { padding: 40px 24px; }
+    /* ヘッダー */
+    header { padding: 0 16px; height: 60px; }
     nav { display: none; }
+    .logo { font-size: 1.1rem; }
+    .cart-btn { padding: 8px 14px; font-size: 0.72rem; }
+
+    /* ヒーロー */
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-right { display: none; }
+    .hero-left { padding: 80px 24px 50px; }
+    .hero-title { font-size: 2.4rem; }
+    .hero-sub { font-size: 0.88rem; }
+    .hero-cta { flex-direction: column; gap: 12px; }
+    .btn-primary, .btn-secondary { text-align: center; padding: 14px 24px; }
+
+    /* セクション共通 */
+    section { padding: 50px 20px; }
+    .section-title { font-size: 1.8rem; }
+
+    /* 早期予約割引 */
+    .hero-right + div, [style*="grid-template-columns:repeat(3"] {
+      grid-template-columns: 1fr !important;
+    }
+
+    /* 商品一覧 */
+    .products-grid { grid-template-columns: 1fr !important; max-width: 100% !important; }
+    .product-card { grid-template-columns: 1fr !important; }
+    .product-img { aspect-ratio: 16/9 !important; }
+    .product-info { padding: 20px !important; }
+    .product-name { font-size: 1.4rem !important; }
+    .product-price { font-size: 1.8rem !important; }
+
+    /* 定期便 */
+    #teiki { padding: 50px 20px; }
+    #teiki div[style*="max-width:560px"] { max-width: 100% !important; }
+    #teiki div[style*="padding:56px"] { padding: 32px 24px !important; }
+    #teiki div[style*="font-size:3.2rem"] { font-size: 2.2rem !important; }
+    #teiki div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+
+    /* 予約について */
+    .reserve-layout { grid-template-columns: 1fr; gap: 40px; }
+    .form-row { grid-template-columns: 1fr; }
+    .schedule-item { flex-direction: column; gap: 6px; }
+    .schedule-date { font-size: 0.9rem; min-width: auto; }
+
+    /* 発送について */
+    #shipping div[style*="grid-template-columns:repeat(3"] {
+      grid-template-columns: 1fr !important;
+    }
+
+    /* ストーリー */
+    #story { grid-template-columns: 1fr; }
+    .story-img { min-height: 250px; }
+    .story-text { padding: 40px 20px; }
+
+    /* フッター */
     .footer-grid { grid-template-columns: 1fr; gap: 30px; }
-    header { padding: 0 20px; }
+    footer { padding: 40px 20px 30px; }
+
+    /* モーダル */
+    .modal-body { padding: 24px 20px; }
+    .form-row { grid-template-columns: 1fr; }
+
+    /* 早期割引グリッド */
+    div[style*="grid-template-columns:repeat(3,1fr)"] {
+      display: grid !important;
+      grid-template-columns: 1fr !important;
+    }
+    div[style*="padding:56px 60px"] { padding: 28px 20px !important; }
+    div[style*="padding:40px 60px"] { padding: 24px 20px !important; }
+    div[style*="font-size:3rem"] { font-size: 2rem !important; }
+    div[style*="font-size:3.4rem"] { font-size: 2rem !important; }
+
+    /* 特定商取引法テーブル */
+    table { font-size: 0.8rem; }
+    td { display: block; padding: 8px 0 !important; }
+    td:first-child { color: var(--rice-gold) !important; padding-bottom: 2px !important; font-size: 0.72rem; }
+    tr { border-bottom: 1px solid rgba(107,76,42,0.15); display: block; padding: 8px 0; }
+  }
+
+  @media (max-width: 768px) {
+    .hamburger { display: flex !important; }
+  }
+    .hero-title { font-size: 2rem; }
+    .logo { font-size: 1rem; }
+    .season-badge { font-size: 0.65rem; }
   }
 </style>
 </head>
@@ -539,7 +614,22 @@
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSfud1oNrbtUiJIBDm8DnEJ7AvQJRaayGfHxw3mzNtTcVlL3tA/viewform?usp=header" target="_blank">お問い合わせ</a>
   </nav>
   <a href="#reserve" class="cart-btn" style="text-decoration:none;">📋 予約フォーム</a>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" style="flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px;z-index:200;position:relative;display:none;">
+    <span style="display:block;width:22px;height:2px;background:var(--deep-brown);transition:all 0.3s;"></span>
+    <span style="display:block;width:22px;height:2px;background:var(--deep-brown);transition:all 0.3s;"></span>
+    <span style="display:block;width:22px;height:2px;background:var(--deep-brown);transition:all 0.3s;"></span>
+  </button>
 </header>
+
+<!-- スマホ用ナビ -->
+<div id="mobileNav" style="position:fixed;top:60px;left:0;right:0;background:var(--cream);z-index:99;border-bottom:1px solid rgba(201,168,76,0.3);padding:20px 24px;flex-direction:column;gap:0;display:none;"
+     class="mobile-nav-closed">
+  <a href="#products" onclick="closeMenu()" style="display:block;padding:14px 0;border-bottom:1px solid rgba(201,168,76,0.15);color:var(--deep-brown);text-decoration:none;font-size:0.9rem;letter-spacing:0.15em;">商品一覧</a>
+  <a href="#teiki" onclick="closeMenu()" style="display:block;padding:14px 0;border-bottom:1px solid rgba(201,168,76,0.15);color:var(--deep-brown);text-decoration:none;font-size:0.9rem;letter-spacing:0.15em;">定期便</a>
+  <a href="#reserve" onclick="closeMenu()" style="display:block;padding:14px 0;border-bottom:1px solid rgba(201,168,76,0.15);color:var(--deep-brown);text-decoration:none;font-size:0.9rem;letter-spacing:0.15em;">予約について</a>
+  <a href="#story" onclick="closeMenu()" style="display:block;padding:14px 0;border-bottom:1px solid rgba(201,168,76,0.15);color:var(--deep-brown);text-decoration:none;font-size:0.9rem;letter-spacing:0.15em;">農家について</a>
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSfud1oNrbtUiJIBDm8DnEJ7AvQJRaayGfHxw3mzNtTcVlL3tA/viewform?usp=header" target="_blank" onclick="closeMenu()" style="display:block;padding:14px 0;color:var(--rice-gold);text-decoration:none;font-size:0.9rem;letter-spacing:0.15em;">お問い合わせ</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -1093,18 +1183,19 @@
     </div>
 
     <div class="reserve-form">
+      <div class="h-adr">
       <div class="form-group">
         <label class="form-label">お名前</label>
-        <input type="text" class="form-input" placeholder="山田 太郎">
+        <input type="text" class="form-input" id="r_name" placeholder="山田 太郎">
       </div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">電話番号</label>
-          <input type="tel" class="form-input" placeholder="090-0000-0000">
+          <input type="tel" class="form-input" id="r_phone" placeholder="090-0000-0000">
         </div>
         <div class="form-group">
           <label class="form-label">メールアドレス</label>
-          <input type="email" class="form-input" placeholder="example@email.com">
+          <input type="email" class="form-input" id="r_email" placeholder="example@email.com">
         </div>
       </div>
       <div class="form-group">
@@ -1127,9 +1218,9 @@
       <div class="form-group">
         <label class="form-label">郵便番号</label>
         <div style="display:flex;gap:10px;align-items:center;">
-          <input type="text" class="form-input p-postal-code" id="zipcode" placeholder="例：869-0613" maxlength="8" style="max-width:180px;" oninput="formatZip(this)">
+          <input type="text" class="form-input p-postal-code" id="zipcode" placeholder="例：869-0613" maxlength="7" style="max-width:200px;" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
         </div>
-        <div id="zipMsg" style="font-size:0.75rem;color:green;margin-top:6px;display:none;">✓ 郵便番号を入力すると住所が自動入力されます</div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:6px;">数字7桁を入力すると都道府県・市区町村が自動入力されます</div>
       </div>
       <div class="form-group">
         <label class="form-label">都道府県</label>
@@ -1153,9 +1244,11 @@
       </div>
       <div class="form-group">
         <label class="form-label">ご要望・備考</label>
-        <textarea class="form-textarea" placeholder="お気軽にご記入ください..."></textarea>
+        <textarea class="form-textarea" id="r_memo" placeholder="お気軽にご記入ください..."></textarea>
       </div>
       <button class="form-submit" onclick="submitReserve()">予約する（無料・今すぐ確定）</button>
+      <input type="hidden" class="p-country-name" value="Japan">
+    </div><!-- /.h-adr -->
     </div>
   </div>
 </section>
@@ -1401,7 +1494,7 @@
 <!-- TOAST -->
 <div class="toast" id="toast">🛒 カートに追加しました</div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   // Countdown timer
   function updateCountdown() {
     const target = new Date('2026-11-01T00:00:00');
@@ -1479,15 +1572,61 @@
   }
 
   function submitReserve() {
-    const name = document.querySelector('#reserve input[placeholder="山田 太郎"]');
-    if (name && !name.value) {
-      alert('お名前をご入力ください。');
-      return;
-    }
-    const toast = document.getElementById('toast');
-    toast.textContent = '✅ ご予約を受け付けました！確認のご連絡をいたします。';
-    toast.classList.add('show');
-    setTimeout(() => { toast.classList.remove('show'); toast.textContent = '🛒 カートに追加しました'; }, 4000);
+    const name = document.getElementById('r_name').value;
+    const phone = document.getElementById('r_phone').value;
+    const email = document.getElementById('r_email').value;
+    const product = document.querySelector('#reserve .form-select').value;
+    const zipcode = document.getElementById('zipcode').value;
+    const prefecture = document.getElementById('prefecture').value;
+    const address1 = document.getElementById('address1').value;
+    const address2 = document.getElementById('address2') ? document.getElementById('address2').value : '';
+    const payment = document.querySelectorAll('#reserve .form-select')[1] ? document.querySelectorAll('#reserve .form-select')[1].value : '';
+    const memo = document.getElementById('r_memo').value;
+
+    if (!name) { alert('お名前をご入力ください。'); return; }
+    if (!phone) { alert('電話番号をご入力ください。'); return; }
+    if (!product) { alert('ご希望の商品をお選びください。'); return; }
+
+    const btn = document.querySelector('.form-submit');
+    btn.textContent = '送信中...';
+    btn.disabled = true;
+
+    const data = {
+      name, phone, email, product, zipcode,
+      address: prefecture + address1 + address2,
+      payment, memo
+    };
+
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyfTv5xMPhRQrLdUpR8ztIn_ooZTcCtp8-92yaWH7MJAE3WaccS8Jy8MIROls289D_u0g/exec';
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(() => {
+      btn.textContent = '予約する（無料・今すぐ確定）';
+      btn.disabled = false;
+      const toast = document.getElementById('toast');
+      toast.textContent = '✅ ご予約を受け付けました！確認のご連絡をいたします。';
+      toast.classList.add('show');
+      setTimeout(() => { toast.classList.remove('show'); toast.textContent = '🛒 カートに追加しました'; }, 5000);
+      // フォームリセット
+      document.getElementById('r_name').value = '';
+      document.getElementById('r_phone').value = '';
+      document.getElementById('r_email').value = '';
+      document.getElementById('r_memo').value = '';
+      document.getElementById('zipcode').value = '';
+      document.getElementById('prefecture').value = '';
+      document.getElementById('address1').value = '';
+      if(document.getElementById('address2')) document.getElementById('address2').value = '';
+    })
+    .catch(() => {
+      btn.textContent = '予約する（無料・今すぐ確定）';
+      btn.disabled = false;
+      alert('送信に失敗しました。お手数ですがメールにてご連絡ください。');
+    });
   }
 
   function formatZip(input) {
@@ -1545,6 +1684,31 @@
     }
   }
 
+  function toggleMenu() {
+    const nav = document.getElementById('mobileNav');
+    if (nav.style.display === 'flex') {
+      nav.style.display = 'none';
+    } else {
+      nav.style.display = 'flex';
+    }
+  }
+  function closeMenu() {
+    document.getElementById('mobileNav').style.display = 'none';
+  }
+
+  // ハンバーガーメニューの表示制御
+  function checkHamburger() {
+    const btn = document.getElementById('hamburger');
+    if (window.innerWidth <= 768) {
+      btn.style.display = 'flex';
+    } else {
+      btn.style.display = 'none';
+      document.getElementById('mobileNav').style.display = 'none';
+    }
+  }
+  window.addEventListener('resize', checkHamburger);
+  window.addEventListener('load', checkHamburger);
+
   function openTokusho() {
     document.getElementById('tokushoOverlay').classList.add('open');
   }
@@ -1555,3 +1719,22 @@
   function openTeikiModal(plan, price) {
     document.getElementById('teikiPlanName').textContent = plan;
     doc
+    document.getElementById('teikiPlanPrice').textContent = '¥' + price;
+    document.getElementById('teikiModalOverlay').classList.add('open');
+  }
+  function closeTeikiModal() {
+    document.getElementById('teikiModalOverlay').classList.remove('open');
+  }
+  function closeTeikiModalOutside(e) {
+    if (e.target === document.getElementById('teikiModalOverlay')) closeTeikiModal();
+  }
+  function submitTeiki() {
+    closeTeikiModal();
+    const toast = document.getElementById('toast');
+    toast.textContent = '✅ 定期便のお申し込みを受け付けました';
+    toast.classList.add('show');
+    setTimeout(() => { toast.classList.remove('show'); toast.textContent = '🛒 カートに追加しました'; }, 3500);
+  }
+</script>
+</body>
+</html>
